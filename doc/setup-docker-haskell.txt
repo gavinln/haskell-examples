@@ -1,0 +1,60 @@
+Github repo
+https://github.com/gibiansky/IHaskell
+
+Setup docker-machine
+1. Change to the project root directory
+cd c:\ws\program_in_haskell
+
+2. Clone the project
+git clone https://github.com/gibiansky/IHaskell.git
+
+3. Stop the docker-machine
+docker-machine stop
+
+4. List the mapped shared folders
+VBoxManage.exe showvminfo default | grep "Host path"
+
+5. Remove shared folders /ws
+VBoxManage.exe sharedfolder remove default --name /ws
+
+6. Add the current directory as a shared folder called /ws
+VBoxManage.exe sharedfolder add default --name /ws --hostpath %cd% --automount
+
+7. Start the Docker maachine
+docker-machine start
+
+8. Setup the environment
+docker-machine env
+
+9. Run the command on the last line of the previous command output
+@FOR /f "tokens=*" %i IN ('docker-machine env') DO @%i
+
+Setup the Official Docker image
+1. Login to the docker-machine
+docker-machine ssh
+
+2. Pull the Haskell image
+docker pull haskell
+
+3. Start an interactive ghci session
+docker run -it --rm haskell:8
+
+4. Press the Ctrl+D key combination to quit
+
+Setup the IHaskell docker container
+1. Login to the docker-machine
+docker-machine ssh
+
+2. Change to the workspace directory
+cd /ws
+
+3. Change to the IHaskell directory
+cd IHaskell
+
+4. Build the Docker container
+docker build -t ihaskell:latest .
+
+5. Run the IHaskell notebook
+docker run -it -p8888:8888 -v /ws/notebooks:/notebooks ihaskell:latest
+
+6. Access the notebook at http://192.168.99.100:8888
