@@ -36,10 +36,19 @@ docker-machine ssh
 2. Pull the Haskell image
 docker pull haskell
 
-3. Start an interactive ghci session
-docker run -it --rm haskell:8
+3. Change to the examples directory
+cd /ws/examples
 
-4. Press the Ctrl+D key combination to quit
+4. Start an interactive ghci session
+docker run -it --rm -v /ws/examples:/examples haskell:8
+
+5. Run a shell command
+:!ls /examples
+
+6. Load a haskell program
+:load /examples/introduction.hs
+
+7. Press the Ctrl+D key combination to quit
 
 Setup the IHaskell docker container
 1. Login to the docker-machine
@@ -58,3 +67,6 @@ docker build -t ihaskell:latest .
 docker run -it -p8888:8888 -v /ws/notebooks:/notebooks ihaskell:latest
 
 6. Access the notebook at http://192.168.99.100:8888
+
+Links
+VIM setup: https://mendo.zone/fun/neovim-setup-haskell/
