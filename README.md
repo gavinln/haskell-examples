@@ -78,3 +78,23 @@ https://tech.fpcomplete.com/haskell/get-started
 [Haskell course][1020]
 
 [1020]: https://github.com/data61/fp-course
+
+[Text to structured data][1030]
+
+[1030]: https://github.com/facebook/duckling
+
+[Haskell training][1040]
+
+[1040]: https://github.com/google/haskell-trainings
+
+[Why not Haskell][1050]
+
+[1050]: https://pchiusano.github.io/2017-01-20/why-not-haskell.html
+
+[Parse, don't validate][1060]
+
+[1060]: https://lexi-lambda.github.io/blog/2019/11/05/parse-don-t-validate/
+
+[Haskell vs Python: Working with Trees][1070]
+
+[1070: https://doisinkidney.com/posts/2019-10-02-what-is-good-about-haskell.html
