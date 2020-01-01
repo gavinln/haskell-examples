@@ -9,7 +9,7 @@ double x = x + x
 -- operator .. produces values from 1 to n
 -- try [1 .. 5]
 
-sum [1..5]
+-- sum [1..5]
 
 -- Summing numbers
 sumx []    = 0

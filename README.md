@@ -97,4 +97,9 @@ https://tech.fpcomplete.com/haskell/get-started
 
 [Haskell vs Python: Working with Trees][1070]
 
-[1070: https://doisinkidney.com/posts/2019-10-02-what-is-good-about-haskell.html
+[1070]: https://doisinkidney.com/posts/2019-10-02-what-is-good-about-haskell.html
+
+[Business rules][1080] in Haskell, F# and C#
+
+[1080]: https://blog.ndcconferences.com/composite-as-a-monoid-a-business-rules-example/
+

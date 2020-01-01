@@ -172,4 +172,30 @@ perfects n = [x | x <- [1..n], sum (factors x) - x == x]
 -- perfects 500
 -- [6,28,496]
 
+-- list comprehension with two generators transformed to nested list
+-- comprehensions
+
+-- [(x,y) | x <- [1,2], y <- [3,4]]
+-- [(1,3),(1,4),(2,3),(2,4)]
+
+-- concat [[(x, y) | x <- [1,2]] | y <- [3,4]]
+-- [[(1,3),(2,3)],[(1,4),(2,4)]]
+
+-- positions indices where an item exist in a list
+positions3 :: Eq a => a -> [a] -> [Int]
+positions3 x xs = find x (zip xs [0..])
+
+-- positions3 'a' "aba"
+-- [0,2]
+
+-- find 'a' [('a',0), ('b',1), ('a',2)]
+-- [0,2]
+
+-- scalarproduct sum of corresponding integers of each vector
+scalarproduct :: [Int] -> [Int] -> Int
+scalarproduct xs ys = sum [x * y | (x, y) <- zip xs ys]
+
+-- scalarproduct [1,2,3] [4,5,6]
+-- 32
+ 
 -- :reload
