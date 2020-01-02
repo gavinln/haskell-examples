@@ -103,3 +103,6 @@ https://tech.fpcomplete.com/haskell/get-started
 
 [1080]: https://blog.ndcconferences.com/composite-as-a-monoid-a-business-rules-example/
 
+[Why Haskell][1090] for Github Semantic
+
+[1090]: https://github.com/github/semantic/blob/master/docs/why-haskell.md
