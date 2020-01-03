@@ -306,41 +306,167 @@ takeWhile2 f [] = []
 takeWhile2 f (x:xs) | (f x)     = [x] ++ takeWhile2 f xs
                     | otherwise = []
 
--- takeWhile2 even [2,4,5,6]
+-- takeWhile2 even [2,4,5,6,7]
 -- [2,4]
 
--- f 2 : (f 4 : (f 5 : (f 6 : [])))
+-- f 2 : (f 4 : (f 5 : (f 6 : (7 : [])))
 -- ([2] ++ ([4] ++ ([])
 
 takeWhile3 :: (a -> Bool) -> [a] -> [a]
 takeWhile3 f = foldr test_concat_if []
          where test_concat_if x y = if f x then [x] ++ y else []
 
--- takeWhile3 even [2,4,5,6]
--- [2,4]
+-- takeWhile3 even [2,4,5,6,7]
 
 -- Ex 2.d. Remove elements while they satisfy a predicate
 
--- dropWhile even [2,4,5,6]
--- [5,6]
+-- dropWhile even [2,4,5,6,7]
+-- [5,6,7]
 
 dropWhile2 :: (a -> Bool) -> [a] -> [a]
 dropWhile2 f [] = []
 dropWhile2 f (x:xs) | f x       = dropWhile2 f xs
                     | otherwise = x:xs
 
--- dropWhile2 even [2,4,5,6]
--- [5,6]
+-- dropWhile2 even [2,4,5,6,7]
+-- [5,6,7]
 
--- (((([] ++ f 2) ++ f 4) ++ f 5) ++ f 6
--- ((([] ++ []) ++ []) + [5,6]
+-- ((((([] ++ f 2) ++ f 4) ++ f 5) ++ f 6) ++ f 7
+-- ((([] ++ []) ++ []) + [5,6,7]
 
--- NOT CORRECT
 dropWhile3 :: (a -> Bool) -> [a] -> [a]
-dropWhile3 f = foldl test_drop_if []
-         where test_drop_if x y = if f y then x else x ++ [y]
+dropWhile3 f xs = foldl test_drop_if [] xs
+         where test_drop_if x y | length x == 0 && f y = []
+                                | otherwise            = x ++ [y]
 
--- dropWhile3 even [2,4,5,6]
--- [5]
+-- dropWhile3 even [2,4,5,6,7]
+-- [5,6,7]
+
+-- Ex 3. Define map f and filter p using foldr
+
+-- 1 : (2 : (3 : (4 : [])))
+
+map4 :: (a -> b) -> [a] -> [b]
+map4 f xs = foldr apply_cons [] xs
+            where apply_cons x y = f x : y
+
+-- map4 (^2) [1,2,3,4]
+-- [1,4,9,16]
+
+filter4 :: (a -> Bool) -> [a] -> [a]
+filter4 f xs = foldr filter_cons [] xs
+               where filter_cons x y | f x       = x : y
+                                     | otherwise = y
+-- filter4 even [1,2,3,4]
+-- [2,4]
+
+-- Ex 4. Using foldl convert a decimal number to an integer
+
+-- 2 # (3 # (4 + # (5 + 0)
+-- 2 + 10 * (3 + 10 * (4 + 10 * (5 + 0)
+
+dec2int' :: [Int] -> Int
+dec2int' [] = 0
+dec2int' (x:xs) = (x + dec2int' xs) * 10
+
+dec2int :: [Int] -> Int
+dec2int xs = dec2int' (reverse xs) `div` 10
+
+-- dec2int [2,3,4,5]
+-- 2345
+
+-- ((2 # 3) # 4) # 5
+-- (((0 # 2) # 3) # 4) # 5
+-- (((0 * 10 + 2) * 10 + 3) * 10 + 4) * 10 + 5
+
+dec2int2 :: [Int] -> Int
+dec2int2 xs = foldl add_mult 0 xs
+              where add_mult x y = x * 10 + y
+
+-- dec2int2 [2,3,4,5]
+-- 2345
+
+-- Ex. 5 - curry and uncurry
+
+add_pair :: (Int, Int) -> Int
+add_pair (x,y) = x + y
+
+add_fn :: Int -> Int -> Int
+add_fn x y = x + y
+
+add_fn2 :: Int -> Int -> Int
+add_fn2 = \x y -> x + y
+
+-- add_pair (2,3)
+-- 5
+-- add_fn 2 3
+-- 5
+-- add_fn2 2 3
+-- 5
+-- add_fn3 = curry add_pair
+-- add_fn3 2 3
+-- 5
+
+curry2 :: ((Int, Int) -> Int) -> (Int -> Int -> Int)
+curry2 f = \x y -> f (fst (x,y), snd (x,y))
+
+-- add_fn4 = curry2 add_pair
+-- add_fn4 2 3
+-- 5
+
+uncurry2 :: (Int -> Int -> Int) -> ((Int, Int) -> Int)
+uncurry2 f = \pair -> f (fst pair) (snd pair)
+
+-- add_pair2 = uncurry add_fn
+-- add_pair2 (2, 3)
+-- 5
+
+-- add_pair3 = uncurry2 add_fn
+-- add_pair3 (2, 3)
+-- 5
+
+-- Ex 6. unfold p h t x where p - predicate fn, h - head fn, t - tail fn,
+-- x - list
+
+unfold p h t x | p x       = []
+               | otherwise = h x : unfold p h t (t x)
+
+-- int2bin = unfold (==0)(`mod` 2)(`div` 2)
+-- int2bin 5
+-- [1,0,1]
+
+type Bit = Int
+
+-- make8 truncates or extends a binary number to make it 8 bits long
+
+make8 :: [Bit] -> [Bit]
+make8 bits = take 8 (bits ++ repeat 0)
+
+-- make8 [1,0,1,1]
+-- [1,0,1,1,0,0,0,0]
+
+-- chop8 divides up a long list of bits into 8 bit segments
+
+chop8 :: [Bit] -> [[Bit]]
+chop8 [] = []
+chop8 bits = take 8 bits : chop8 (drop 8 bits)
+
+-- chop8 [1,0,1,1,0,0,0,0, 1,0,1,1,0,1,1,0]
+-- [[1,0,1,1,0,0,0,0],[1,0,1,1,0,1,1,0]]
+
+chop8_2 :: [Bit] -> [[Bit]]
+chop8_2 = unfold (==[]) (take 8) (drop 8)
+
+-- chop8_2 [1,0,1,1,0,0,0,0, 1,0,1,1,0,1,1,0]
+-- [[1,0,1,1,0,0,0,0],[1,0,1,1,0,1,1,0]]
+
+-- map5 :: (a -> b) -> [a] -> [b]
+-- map5 f [] = []
+-- map5 f (x:xs)  = f x : map5 f xs
+
+map5 :: Eq a => (a -> b) -> [a] -> [b]
+map5 f xs = unfold (==[]) (\x -> f (x !! 0)) (tail) xs
+
+-- map5 (^2) [1,2,3,4]
 
 -- :reload
