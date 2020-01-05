@@ -50,6 +50,7 @@ instance Functor2 Maybe2 where
 
 data Tree a = Leaf a | Node (Tree a) (Tree a) deriving Show
 
+
 instance Functor2 Tree where
   -- fmap :: (a -> b) -> f a -> f b
 
@@ -94,11 +95,133 @@ inc3 = fmap2 (+1)
 -- fmap id [1,2,3,4]
 -- [1,2,3,4]
 
--- fmap (not . env) [1,2]
+-- fmap (not . even) [1,2]
+-- [True,False]
 
 -- 12.2 Applicatives
 
--- 12.3 Monads
+-- fmap_0 :: a -> f a
+-- fmap_1 :: (a -> b) -> f a -> f b
+-- fmap_2 :: (a -> b -> c) -> f a -> f b -> f c
+-- fmap_3 :: (a -> b -> c -> d) -> f a -> f b -> f c -> f d
 
--- :reload
--- Ok, one module loaded.
+-- fmap_2 (+) (Just 1) (Just 2)
+-- Just 3
+
+-- pure2 converts value o type a into structure of type f a
+-- pure :: a -> f a
+
+-- <*> is a generalized form of function application where the function
+-- parameters and return value are contained in f structures
+-- (<*>) :: f (a -> b) -> f a -> f b
+
+-- fmap_0 :: a -> f a
+-- fmap_0 = pure
+
+-- fmap_1 :: (a -> b) -> f a -> f b
+-- fmap_1 g x = pure g <*> x
+
+-- fmap_2 :: (a -> b -> c) -> f a -> f b -> f c
+-- fmap_2 g x y = pure g <*> x <*> y
+
+-- fmap_3 :: (a -> b -> c -> d) -> f a -> f b -> f c -> f d
+-- fmap_3 g x y z = pure g <*> x <*> y <*> z
+
+class Functor2 f => Applicative2 f where
+  pure2 :: a -> f a
+  apply2 :: f (a -> b) -> f a -> f b
+
+instance Applicative2 Maybe2 where
+  -- pure :: a -> Maybe a
+  pure2 = Just2
+
+  -- apply2 :: Maybe2 (a -> b) -> Maybe2 a -> Maybe2 b
+  apply2 Nothing2 _ = Nothing2
+  apply2 (Just2 g) mx = fmap2 g mx
+
+-- apply2 (pure2 (+1)) (Just2 1)
+-- Just2 2
+
+-- apply2 (apply2 (pure2 (+)) (Just2 1)) (Just2 2)
+-- Just2 3
+
+-- pure (+1) <*> Just 1
+-- Just 2
+
+-- pure (+) <*> Just 1 <*> Just 2
+-- Just 3
+
+{-
+
+instance Applicative [] where
+  -- pure :: a -> [a]
+  pure x = [x]
+
+  -- (<*>) :: [a -> b] -> [a] -> [b]
+  gs <*> xs = [g x | g <- gs, x <- xs]
+-}
+
+-- pure (+1) <*> [1,2,3]
+-- [2,3,4]
+
+-- pure (+) <*> [1] <*> [2]
+-- [3]
+
+-- pure (*) <*> [1,2] <*> [3,4]
+-- [3,4,6,8]
+
+prods :: [Int] -> [Int] -> [Int]
+prods xs ys = [x * y | x <-xs, y <- ys]
+
+-- prods [1,2] [3,4]
+-- [3,4,6,8]
+
+prods2 :: [Int] -> [Int] -> [Int]
+prods2 xs ys = pure (*) <*> xs <*> ys
+
+-- prods2 [1,2] [3,4]
+-- [3,4,6,8]
+
+instance Applicative2 IO where
+  -- pure :: a -> IO a
+  pure2 = return
+
+  -- apply2 :: f (a -> b) -> f a -> f b
+  apply2 mg mx = do
+    g <- mg
+    x <- mx
+    return (g x)
+
+-- apply2 (pure2 show) (return True)
+-- "True"
+
+-- pure show <*> (return 1)
+-- "1"
+
+-- pure (++) <*> getLine <*> getLine
+
+-- apply2 (apply2 (pure2 (++)) getLine) getLine
+
+getChars :: Int -> IO String
+getChars 0 = return []
+getChars n = pure (:) <*> getChar <*> getChars (n - 1)
+
+-- getChars 3
+
+-- convert a list of applicatives to a single applicative and a list of results
+sequenceA2 :: Applicative2 f => [f a] -> f [a]
+sequenceA2 [] = pure2 []
+sequenceA2 (x:xs) = apply2 (apply2 (pure2 (:)) x) (sequenceA2 xs)
+
+getCharTwice = sequenceA2 (replicate 2 getChar)
+
+-- getCharTwice
+
+getChars2 :: Int -> IO String
+getChars2 n = sequenceA (replicate n getChar)
+
+-- getChars2 3
+
+-- Applicative laws
+
+-- Monads
