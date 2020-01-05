@@ -465,7 +465,7 @@ chop8_2 = unfold (==[]) (take 8) (drop 8)
 -- map5 f (x:xs)  = f x : map5 f xs
 
 map5 :: Eq a => (a -> b) -> [a] -> [b]
-map5 f xs = unfold (==[]) (f . (!! 0)) (tail) xs
+map5 f xs = unfold (==[]) (f . head) (tail) xs
 
 -- map5 (^2) [1,2,3,4]
 -- [1,4,9,16]
@@ -479,7 +479,7 @@ iterate2 f x = x : iterate2 f (f x)
 -- [2,4,8]
 
 iterate3 :: Eq a => (a -> a) -> a -> [a]
-iterate3 f x = unfold (==[]) (!! 0) (map f) (repeat x)
+iterate3 f x = unfold (\_ -> False) (head) (map f) (repeat x)
 
 -- take 3 (iterate3 (*2) 2)
 -- [2,4,8]
