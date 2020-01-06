@@ -224,4 +224,218 @@ getChars2 n = sequenceA (replicate n getChar)
 
 -- Applicative laws
 
+-- pure id <*> x = x
+-- pure (g x) = pure g <*> pure x
+-- x <*> pure y = pure (\g -> g y) <*> x
+-- x <*> (y <*> z) = (pure (.) <*> x <*> y) <*> z
+
+-- id "abc"
+-- "abc"
+
+-- pure id <*> "abc"
+-- "abc"
+
+-- id <$> "abc"
+-- "abc"
+
+double :: Int -> Int
+double = (*2)
+
+increment :: Int -> Int
+increment = (+1)
+
+-- double 3
+-- 6
+
+-- pure double <*> [3]
+-- [6]
+
+-- double <$> [3]
+-- [6]
+
+-- (increment . double) 3
+-- 7
+
+-- (increment . double) <$> [3]
+-- [7]
+
+-- double <$> Just 3
+-- Just 6
+
+-- (increment . double) <$> Just 3
+-- Just 7
+
+mult :: Int -> Int -> Int
+mult x y = x * y
+
+-- mult 2 3
+-- 6
+
+-- mult <$> [2] <*> [3]
+-- [6]
+
+-- increment <$> (mult <$> [2] <*> [3])
+-- [7]
+
+-- mult <$> Just 2 <*> Just 3
+-- Just 6
+
+-- increment <$> (mult <$> Just 2 <*> Just 3)
+-- Just 7
+
 -- Monads
+
+data Expr = Val Int | Div Expr Expr deriving Show
+
+eval :: Expr -> Int
+eval (Val n) = n
+eval (Div x y) = eval x `div` eval y
+
+-- eval (Div (Val 6) (Val 3))
+-- 2
+
+-- eval (Div (Val 6) (Val 0))
+-- *** Exception: divide by zero
+
+safediv :: Int -> Int -> Maybe Int
+safediv _ 0 = Nothing
+safediv n m = Just (n `div` m)
+
+-- safediv 6 3
+-- Just 2
+-- safediv 6 0
+-- Nothing
+
+eval2 :: Expr -> Maybe Int
+eval2 (Val n) = Just n
+eval2 (Div x y) = case eval2 x of
+  Nothing -> Nothing
+  Just n -> case eval2 y of
+    Nothing -> Nothing
+    Just m -> safediv n m
+
+-- eval2 (Div (Val 6) (Val 0))
+-- Nothing
+
+{-
+(>>=) :: Maybe a -> (a -> Maybe b) -> Maybe b
+mx >>= f = case mx of
+  Nothing -> Nothing
+  Just x -> f x
+-}
+
+eval3 :: Expr -> Maybe Int
+eval3 (Val n) = Just n
+eval3 (Div x y) = eval3 x >>= \n ->
+                    eval3 y  >>= \m ->
+                    safediv n m
+
+-- eval3 (Div (Val 6) (Val 3))
+-- Just 2
+
+eval4 :: Expr -> Maybe Int
+eval4 (Val n) = Just n
+eval4 (Div x y) = do
+    n <- eval4 x
+    m <- eval4 y
+    safediv n m
+
+-- eval4 (Div (Val 6) (Val 3))
+-- Just 2
+
+class Applicative2 m => Monad2 m where
+  return2 :: a -> m a
+
+  -- (>>=) :: m a -> (a -> m b) -> m b
+  bind2 :: m a -> (a -> m b) -> m b
+
+  return2 = pure2
+
+instance Monad2 Maybe2 where
+   
+  -- (>>=) :: m a -> (a -> m b) -> m b
+  -- bind :: m a -> (a -> m b) -> m b
+  bind2 Nothing2 _ = Nothing2
+  bind2 (Just2 x) f = f x
+
+safediv2 :: Int -> Int -> Maybe2 Int
+safediv2 _ 0 = Nothing2
+safediv2 n m = Just2 (n `div` m)
+
+-- safediv2 6 3
+-- Just2 2
+-- safediv2 6 0
+-- Nothing2
+
+div_1 :: Int -> Maybe2 Int
+div_1 x = Just2 (x `div` 1)
+
+-- div_1 3
+-- Val 3
+
+eval5 :: Expr -> Maybe2 Int
+eval5 (Val n) = Just2 n
+eval5 (Div x y) = bind2 (eval5 x) (\n ->
+                    bind2 (eval5 y) (\m ->
+                    safediv2 n m))
+
+-- eval5 (div_1 3)
+-- Just2 3
+
+-- bind :: m a -> (a -> m b) -> m b
+-- bind2 (Just2 3) div_1
+-- Just2 3
+
+-- bind2 (eval5 (Val 3)) div_1
+-- Just2 3
+
+-- eval5 (Div (Val 6) (Val 3))
+-- Just2 3
+-- eval5 (Div (Val 6) (Val 0))
+-- Nothing2
+
+{-
+instance Monad Maybe where
+  -- (>>=) :: m a -> (a -> m b) -> m b
+  Nothing >>=  _ = Nothing
+  (Just x) >>= f = f x
+
+instance Monad [] where
+  -- (>>=) :: m a -> (a -> m b) -> m b
+  xs >>= f = [y | x <- xs, y <- f x]
+-}
+
+pairs :: [a] -> [b] -> [(a,b)]
+pairs xs ys = [(x,y) | x <- xs, y <- ys]
+
+-- pairs [1,2] [3,4]
+-- [(1,3),(1,4),(2,3),(2,4)]
+
+pairs2 :: [a] -> [b] -> [(a,b)]
+pairs2 xs ys = xs >>= \x ->
+  ys >>= \y ->
+  [(x,y)]
+
+-- pairs2 [1,2] [3,4]
+-- [(1,3),(1,4),(2,3),(2,4)]
+
+pairs3 :: [a] -> [b] -> [(a,b)]
+pairs3 xs ys = do
+  x <- xs
+  y <- ys
+  return (x,y)
+
+-- pairs3 [1,2] [3,4]
+-- [(1,3),(1,4),(2,3),(2,4)]
+
+
+-- [1] >>= \x -> [x]
+-- [1]
+
+-- [1] >>= \x -> [2] >>= \y -> [(x,y)]
+-- [(1,2)]
+
+-- [1,2] >>= \x -> [3,4] >>= \y -> [(x,y)]
+-- [(1,3),(1,4),(2,3),(2,4)]
+
+-- State monad
