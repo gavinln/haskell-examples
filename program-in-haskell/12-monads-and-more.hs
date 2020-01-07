@@ -1,5 +1,7 @@
 -- run using ghci. Type :reload to re-load the file
 
+import Data.Char
+
 -- Part 12: Monads and more
 
 -- 12.1 Functors
@@ -428,7 +430,6 @@ pairs3 xs ys = do
 -- pairs3 [1,2] [3,4]
 -- [(1,3),(1,4),(2,3),(2,4)]
 
-
 -- [1] >>= \x -> [x]
 -- [1]
 
@@ -438,4 +439,94 @@ pairs3 xs ys = do
 -- [1,2] >>= \x -> [3,4] >>= \y -> [(x,y)]
 -- [(1,3),(1,4),(2,3),(2,4)]
 
+-- do { x <- [1]; return x}
+-- [1]
+
+-- do { x <- [1]; y <- [2]; return (x,y) }
+-- [(1,2)]
+
+-- do { x <- [1,2]; y <- [3,4]; return (x,y) }
+-- [(1,3),(1,4),(2,3),(2,4)]
+
 -- State monad
+
+type State = Int
+
+-- ST - State Transformer
+
+-- Generic functions
+
+mapM2 :: Monad m => (a -> m b) -> [a] -> m [b]
+mapM2 f [] = return []
+mapM2 f (x:xs) = do
+  y <- f x
+  ys <- mapM2 f xs
+  return (y:ys)
+
+-- isDigit '1'
+-- True
+-- isDigit 'a'
+-- False
+
+-- digitToInt '1'
+-- 1
+
+conv :: Char -> Maybe Int
+
+conv c | isDigit c = Just (digitToInt c)
+       | otherwise = Nothing
+
+-- conv '1'
+-- Just 1
+
+-- conv 'a'
+-- Nothing
+
+-- mapM conv "1234"
+-- Just [1,2,3,4]
+
+-- mapM conv "123a"
+-- Nothing
+
+filterM2 :: Monad m => (a -> m Bool) -> [a] -> m [a]
+filterM2 p [] = return []
+filterM2 p (x:xs) = do
+  b <- p x
+  ys <- filterM2 p xs
+  return (if b then x:ys else ys)
+
+-- filterM2 (\x -> [True,False]) [1,2,3]
+-- [[1,2,3],[1,2],[1,3],[1],[2,3],[2],[3],[]]
+
+-- concat [[1], [2,3], []]
+-- [1,2,3]
+
+concat2 :: [[a]] -> [a]
+concat2 [[]] = []
+concat2 [x] = x
+concat2 (x:xs) = x ++ concat2 xs
+
+-- concat2 [[1], [2,3], []]
+-- [1,2,3]
+
+join :: Monad m => m (m a) -> m a
+join mmx = do
+  mx <- mmx
+  x <- mx
+  return x
+
+-- join [[1], [2,3], []]
+-- [1,2,3]
+
+-- join (Just (Just 1))
+-- Just 1
+
+-- join (Just Nothing)
+-- Nothing
+
+-- join Nothing
+-- Nothing
+
+-- Monad laws
+
+
