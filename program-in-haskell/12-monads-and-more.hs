@@ -529,4 +529,9 @@ join mmx = do
 
 -- Monad laws
 
+{-
+return x >> f = f x
+mx >> return  = mx
+(mx >> f ) >>= g = mx >> (\x -> (f x >>= g))
+-}
 
