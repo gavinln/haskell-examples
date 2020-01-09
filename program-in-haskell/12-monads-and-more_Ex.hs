@@ -55,8 +55,13 @@ instance Functor2 Maybe2 where
   fmap2 _ Nothing2  = Nothing2
   fmap2 g (Just2 x) = Just2 (g x)
 
+inc :: Num a => a -> a
 inc x = x + 1
+
+double :: Num a => a -> a
 double x = x * 2
+
+add :: Num a => a -> a -> a
 add x y = x + y
 
 -- fmap inc [1,2]
@@ -72,11 +77,9 @@ class Functor2 f => Applicative2 f where
   pure2 :: a -> f a
   apply2 :: f (a -> b) -> f a -> f b
 
-  (<*>) :: f (a -> b) -> f a -> f b
-
 instance Applicative2 Maybe2 where
   -- pure :: a -> Maybe a
-  pure2 = Just2
+  pure2 x = Just2 x
 
   -- apply2 :: Maybe2 (a -> b) -> Maybe2 a -> Maybe2 b
   apply2 (Just2 g) mx = fmap2 g mx
@@ -85,4 +88,46 @@ instance Applicative2 Maybe2 where
 -- Just2 3
 -- apply2 (pure2 inc) Nothing2
 -- Nothing2
+
+class Applicative2 m => Monad2 m where
+  return2 :: a -> m a
+
+  -- (>>=) :: m a -> (a -> m b) -> m b
+  bind2 :: m a -> (a -> m b) -> m b
+
+  return2 x = pure2 x
+
+instance Monad2 Maybe2 where
+   
+  -- (>>=) :: m a -> (a -> m b) -> m b
+  -- bind :: m a -> (a -> m b) -> m b
+  bind2 Nothing2 _ = Nothing2
+  bind2 (Just2 x) f = f x
+
+inc_maybe2 :: Num a => a -> Maybe2 a
+inc_maybe2 x = Just2 (x + 1)
+
+-- bind2 (Just2 2) inc_maybe2
+-- Just2 3
+
+newtype ZipList a = Z [a] deriving Show
+
+instance Functor ZipList where
+  -- fmap :: (a -> b) -> ZipList a -> ZipList b
+  fmap g (Z xs) = Z (fmap g xs)
+
+-- fmap inc (Z [1..3])
+-- Z [2,3,4]
+
+instance Applicative ZipList where
+  -- pure :: a -> ZipList a
+  pure x = Z [x] 
+
+  -- <*> :: ZipList (a -> b) -> ZipList a -> ZipList b
+  (Z gs) <*> (Z xs) = Z [g x| g <- gs, x <- xs]
+
+-- inc <$> (Z [1..3])
+-- Z [2,3,4]
+-- (pure inc) <*> (Z [1..3])
+-- Z [2,3,4]
 
