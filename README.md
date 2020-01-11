@@ -17,7 +17,6 @@ resources in learning Haskell.
 
 2. Start ghci
 
-
 #### Install Stack
 
 [Stack][200] is a cross-platform tool for developing Haskell projects.
@@ -26,6 +25,18 @@ resources in learning Haskell.
 
 1. Install Stack
 curl -sSL https://get.haskellstack.org/ | sh
+
+## Nix and Haskell
+
+The [Nix and Haskell][300] repo demonstrates how to use Nix to build Haskell projects.
+
+[300]: https://github.com/Gabriel439/haskell-nix
+
+1. Setup the environment using Nix
+
+```
+nix-env -i cabal-install cabal2nix nix-prefetch-git ghc
+```
 
 ## Tips
 
