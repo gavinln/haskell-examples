@@ -1,9 +1,12 @@
-# Haskell programming
+# Haskell examples
+
+This repository has multiple Haskell example programs from different sources
+including Haskell books, videos, blog posts and other tutorials.
 
 ## Program in Haskell
 
-This repository is used to work through the book [Programming in Haskell by
-Graham Hutton][100]
+The book [Programming in Haskell by Graham Hutton][100] is one of the best
+resources in learning Haskell.
 
 [100]: https://www.amazon.com/Programming-Haskell-Graham-Hutton/dp/1316626229/
 
@@ -28,40 +31,6 @@ curl -sSL https://get.haskellstack.org/ | sh
 
 1. Use -fdefer-type-errors in ghci so errors become warnings when experimenting
 
-## Nix and Haskell
-
-The [Nix and Haskell][300] repo demonstrates how to use Nix to build Haskell projects.
-
-[300]: https://github.com/Gabriel439/haskell-nix
-
-1. Setup the environment using Nix
-
-```
-nix-env -i cabal-install cabal2nix nix-prefetch-git ghc
-```
-
-2. Clone the project
-
-```
-git clone https://github.com/Gabriel439/haskell-nix
-```
-
-3. Change to the code directory
-
-```
-cd ./haskell-nix
-```
-
-4. Change to the correct project
-
-```
-cd project0
-cd project1
-cd project2
-cd project3
-cd project4
-```
-
 ## FPComplete
 
 ### Get started with Haskell
@@ -69,6 +38,8 @@ cd project4
 https://tech.fpcomplete.com/haskell/get-started
 
 ## Links
+
+### Learning Haskell
 
 [Haskell walk through for beginners][1000]
 
@@ -82,34 +53,53 @@ https://tech.fpcomplete.com/haskell/get-started
 
 [1020]: https://github.com/data61/fp-course
 
-[Text to structured data][1030]
+[Haskell learning advice][1030]
 
-[1030]: https://github.com/facebook/duckling
+[1030]: http://mechanical-elephant.com/thoughts/2015-04-20-becoming-productive-in-haskell/index.html
 
-[Haskell training][1040]
+[Google Haskell training][1040]
 
 [1040]: https://github.com/google/haskell-trainings
 
-[Why not Haskell][1050]
+### Good Haskell
 
-[1050]: https://pchiusano.github.io/2017-01-20/why-not-haskell.html
+[Haskell for all][1100]
 
-[Parse, don't validate][1060]
+[1100]: http://www.haskellforall.com/2015/09/how-to-make-your-haskell-code-more.html
 
-[1060]: https://lexi-lambda.github.io/blog/2019/11/05/parse-don-t-validate/
+[Parse, don't validate][1110]
 
-[Haskell vs Python: Working with Trees][1070]
+[1110]: https://lexi-lambda.github.io/blog/2019/11/05/parse-don-t-validate/
 
-[1070]: https://doisinkidney.com/posts/2019-10-02-what-is-good-about-haskell.html
+[Haskell vs Python: Working with Trees][1120]
 
-[Business rules][1080] in Haskell, F# and C#
+[1120]: https://doisinkidney.com/posts/2019-10-02-what-is-good-about-haskell.html
 
-[1080]: https://blog.ndcconferences.com/composite-as-a-monoid-a-business-rules-example/
+[Business rules][1130] in Haskell, F# and C#
 
-[Why Haskell][1090] for Github Semantic
+[1130]: https://blog.ndcconferences.com/composite-as-a-monoid-a-business-rules-example/
 
-[1090]: https://github.com/github/semantic/blob/master/docs/why-haskell.md
+[What I wish I knew when learning Haskell][1140]
 
-[Haskell learning advice][1100]
+[1140]: https://github.com/sdiehl/wiwinwlh
 
-[1100]: http://mechanical-elephant.com/thoughts/2015-04-20-becoming-productive-in-haskell/index.html
+### Haskell libraries
+
+[Text to structured data][1210]
+
+[1220]: https://github.com/facebook/duckling
+
+[RIO: a standard library for Haskell][1220]
+
+[1220]: https://github.com/commercialhaskell/rio
+
+### Miscellaneous
+
+[Why not Haskell][1300]
+
+[1300]: https://pchiusano.github.io/2017-01-20/why-not-haskell.html
+
+[Why Haskell][1310] for Github Semantic
+
+[1310]: https://github.com/github/semantic/blob/master/docs/why-haskell.md
+
