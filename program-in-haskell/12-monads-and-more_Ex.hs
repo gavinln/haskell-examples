@@ -110,6 +110,9 @@ inc_maybe2 x = Just2 (x + 1)
 -- bind2 (Just2 2) inc_maybe2
 -- Just2 3
 
+-- bind2 (Nothing2) inc_maybe2
+-- Nothing2
+
 newtype ZipList a = Z [a] deriving Show
 
 instance Functor ZipList where
