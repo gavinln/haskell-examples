@@ -87,7 +87,7 @@ https://tech.fpcomplete.com/haskell/get-started
 
 [Text to structured data][1210]
 
-[1220]: https://github.com/facebook/duckling
+[1210]: https://github.com/facebook/duckling
 
 [RIO: a standard library for Haskell][1220]
 
