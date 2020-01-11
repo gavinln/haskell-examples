@@ -24,6 +24,10 @@ Graham Hutton][100]
 1. Install Stack
 curl -sSL https://get.haskellstack.org/ | sh
 
+## Tips
+
+1. Use -fdefer-type-errors in ghci so errors become warnings when experimenting
+
 ## Nix and Haskell
 
 The [Nix and Haskell][300] repo demonstrates how to use Nix to build Haskell projects.
@@ -63,7 +67,6 @@ cd project4
 ### Get started with Haskell
 
 https://tech.fpcomplete.com/haskell/get-started
-
 
 ## Links
 
@@ -106,3 +109,7 @@ https://tech.fpcomplete.com/haskell/get-started
 [Why Haskell][1090] for Github Semantic
 
 [1090]: https://github.com/github/semantic/blob/master/docs/why-haskell.md
+
+[Haskell learning advice][1100]
+
+[1100]: http://mechanical-elephant.com/thoughts/2015-04-20-becoming-productive-in-haskell/index.html
