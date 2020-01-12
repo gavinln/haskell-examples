@@ -38,15 +38,24 @@ The [Nix and Haskell][300] repo demonstrates how to use Nix to build Haskell pro
 nix-env -i cabal-install cabal2nix nix-prefetch-git ghc
 ```
 
-## Tips
+## Functors, applicatives and monads
 
-1. Use -fdefer-type-errors in ghci so errors become warnings when experimenting
+[Blog post][400] demonstrating the same functionality using functors
+applicatives and monads
+
+[400]: https://www.snoyman.com/blog/2017/01/functors-applicatives-and-monads
 
 ## FPComplete
 
 ### Get started with Haskell
 
 https://tech.fpcomplete.com/haskell/get-started
+
+## Miscellaneous
+
+### Experimenting in Haskell tips
+
+1. Use -fdefer-type-errors in ghci so errors become warnings when experimenting
 
 ## Links
 
