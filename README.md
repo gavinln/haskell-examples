@@ -103,6 +103,18 @@ https://tech.fpcomplete.com/haskell/get-started
 
 [1140]: https://github.com/sdiehl/wiwinwlh
 
+[Introduction to IO][1150]
+
+[1150]: https://wiki.haskell.org/Introduction_to_IO
+
+[Monads as containers][1160]
+
+[1160]: https://wiki.haskell.org/Monads_as_containers
+
+[Monads as computation][1170]
+
+[1170]: https://wiki.haskell.org/Monads_as_computation
+
 ### Haskell libraries
 
 [Text to structured data][1210]
