@@ -26,16 +26,36 @@ resources in learning Haskell.
 1. Install Stack
 curl -sSL https://get.haskellstack.org/ | sh
 
+## Haskell and vim
+
+To use [vim with Haskel][210] the author suggests installing
+
+* [haskell-ide-engine][220]
+* [hlint][230] - Haskell linter
+* [hindent][240] - Haskell pretty printer
+
+[210]: http://marco-lopes.com/articles/Vim-and-Haskell-in-2019/
+[220]: https://github.com/haskell/haskell-ide-engine/#installation-with-nix
+[230]: https://github.com/ndmitchell/hlint
+[240]: https://github.com/chrisdone/hindent
+
 ## Nix and Haskell
 
 The [Nix and Haskell][300] repo demonstrates how to use Nix to build Haskell projects.
 
 [300]: https://github.com/Gabriel439/haskell-nix
+[310]: https://maybevoid.com/posts/2019-01-27-getting-started-haskell-nix.html
 
 1. Setup the environment using Nix
 
 ```
 nix-env -i cabal-install cabal2nix nix-prefetch-git ghc
+```
+
+2.
+
+```
+nix-env -i hlint
 ```
 
 ## Functors, applicatives and monads
@@ -56,6 +76,39 @@ https://tech.fpcomplete.com/haskell/get-started
 ### Experimenting in Haskell tips
 
 1. Use -fdefer-type-errors in ghci so errors become warnings when experimenting
+
+## Haskell operator names
+
+Some [common names][500] used for Haskell operators are:
+
+[500]: https://stackoverflow.com/questions/7746894/are-there-pronounceable-names-for-common-haskell-operators
+
+```
+!!  "index"
+$
+*>   "then"
+++   "concat"
+->   "to"
+.    "pipe to" / "compose" / "dot"
+:    "cons"
+::   "has type" / "of type" / "is of type"
+<$   "map-replace by"
+<$>  "fmap" / "dollar cyclops"
+<*>  "apply" / "star cyclops"
+<-   "is drawn from"
+<=<  "left fish"
+<|>  "or"
+=    "is defined to be" / "is defined as"
+=>   "implies" / "then"
+>>      then
+>>=     bind
+@    "as"
+[]   "empty list"
+\    "lambda"
+_    "whatever"
+|    "such that"
+~    "lazy"
+```
 
 ## Links
 
@@ -124,6 +177,10 @@ https://tech.fpcomplete.com/haskell/get-started
 [RIO: a standard library for Haskell][1220]
 
 [1220]: https://github.com/commercialhaskell/rio
+
+Haskell [shell scripting][1230]
+
+[1230]: https://github.com/Gabriel439/Haskell-Turtle-Library
 
 ### Miscellaneous
 
