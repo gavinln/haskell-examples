@@ -1,0 +1,19 @@
+session_name: walkthrough
+start_directory: "."
+windows:
+- window_name: edit-run
+  layout: main-horizontal
+  focus: true
+  shell_command_before:
+    - echo initial command
+  panes:
+    - shell_command:
+        - nix-shell
+        - vim align-equals.hs
+      focus: true
+    - shell_command:
+        - nix-shell
+        - make ghci
+    - shell_command:
+        - nix-shell
+        - make ghcid
