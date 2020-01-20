@@ -6,3 +6,5 @@
 *.log
 .vagrant
 IHaskell/
+*.hi
+*.o
