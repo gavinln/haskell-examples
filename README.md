@@ -39,6 +39,32 @@ To use [vim with Haskel][210] the author suggests installing
 [230]: https://github.com/ndmitchell/hlint
 [240]: https://github.com/chrisdone/hindent
 
+## Nix env for Haskell
+
+1. Change to the walkthough directory
+
+```
+cd walkthrough
+```
+
+2. Start the nix-shell - slow the first time, cached subsequently
+
+```
+nix-shell shell.nix
+```
+
+3. Find the ghci Haskell interpreter
+
+```
+which ghci
+```
+
+4. Display the ghci version
+
+```
+ghci -V
+```
+
 ## Nix and Haskell
 
 The [Nix and Haskell][300] repo demonstrates how to use Nix to build Haskell projects.
@@ -52,7 +78,7 @@ The [Nix and Haskell][300] repo demonstrates how to use Nix to build Haskell pro
 nix-env -i cabal-install cabal2nix nix-prefetch-git ghc
 ```
 
-2.
+2. Setup Haskell linting
 
 ```
 nix-env -i hlint
