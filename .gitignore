@@ -8,3 +8,4 @@
 IHaskell/
 *.hi
 *.o
+.mypy_cache/

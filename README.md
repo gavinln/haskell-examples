@@ -136,6 +136,16 @@ _    "whatever"
 ~    "lazy"
 ```
 
+## Python environment
+
+1. Create a Python environment
+
+```
+pipenv --python $(which python3)
+```
+
+
+
 ## Links
 
 ### Learning Haskell

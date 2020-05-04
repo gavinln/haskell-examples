@@ -10,7 +10,7 @@ import Text.Read (readMaybe)
 displayAge maybeAge = 
     case maybeAge of
       Nothing -> putStrLn "You provided an invalid year"
-      Just age -> putStrLn $ "In 2020, you will be: " ++ show age
+      Just age -> putStrLn $ "In tha year, you will be: " ++ show age
 
 yearToAge year = 2020 - year
 
