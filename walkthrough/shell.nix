@@ -4,7 +4,7 @@ let
     text
     safe
     hlint
-    hindent
+    # hindent
   ];
   # my-haskell-packages =  pkgs.haskellPackages.ghcWithPackages haskell-deps;
   my-haskell-packages =  pkgs.haskellPackages.ghcWithHoogle haskell-deps;

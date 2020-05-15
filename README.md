@@ -170,6 +170,10 @@ pipenv --python $(which python3)
 
 [1040]: https://github.com/google/haskell-trainings
 
+[Haskell][1050] from the inside out
+
+[1050]: https://www.snoyman.com/reveal/haskell-inside-out#/
+
 ### Good Haskell
 
 [Haskell for all][1100]
