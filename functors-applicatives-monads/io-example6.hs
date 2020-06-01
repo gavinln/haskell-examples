@@ -1,14 +1,13 @@
 {-
  - Try entering two correct values 3 and 4
- - Try entering incorrect values 3 and abc
+ - Try entering incorrect values "x" and 4
  - Try entering no values <press enter> and 4
  -}
 
 import Text.Read (readMaybe)
-import Debug.Trace (trace)
 
-area_rect :: Int -> Int -> Int
-area_rect x y = x * y
+compute_area :: Int -> Int -> Int
+compute_area length breadth = length * breadth
 
 show_area :: Maybe Int -> IO ()
 show_area Nothing = putStrLn ("Invalid length or breadth")
@@ -23,6 +22,6 @@ main = do
   let area = do
               length <- readMaybe lengthStr
               breadth <- readMaybe breadthStr
-              return (area_rect length breadth)
+              return (compute_area length breadth)
   show_area area
   return ()

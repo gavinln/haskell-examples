@@ -5,7 +5,6 @@
  -}
 
 import Text.Read (readMaybe)
-import Debug.Trace (trace)
 
 area_rect :: Int -> Int -> Int
 area_rect x y = x * y

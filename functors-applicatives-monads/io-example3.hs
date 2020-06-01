@@ -5,7 +5,6 @@
  -}
 
 import Text.Read (readMaybe)
-import Debug.Trace (trace)
 
 compute_area :: Maybe Int -> Maybe Int -> Maybe Int
 compute_area Nothing _  = Nothing

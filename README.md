@@ -232,3 +232,6 @@ Haskell [shell scripting][1230]
 
 [1310]: https://github.com/github/semantic/blob/master/docs/why-haskell.md
 
+[Why Haskell matters][1320]
+
+[1320]: https://github.com/thma/WhyHaskellMatters
